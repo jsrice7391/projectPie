@@ -12,18 +12,22 @@ import IconButton from "material-ui/IconButton";
 import FontIcon from "material-ui/FontIcon";
 import NavigationExpandMoreIcon from "material-ui/svg-icons/navigation/expand-more";
 import MenuItem from "material-ui/MenuItem";
+import {blue500} from "material-ui/styles/colors";
 
 const styleLink={
-  fontDecoration: "none"
-
+  color: "white"
 }
+
+const toolbarStyle = {
+  backgroundColor: blue500
+};
 
 const Nav = (props) => (
   <MuiThemeProvider>
-    <Toolbar>
+    <Toolbar style={toolbarStyle}>
       <ToolbarGroup>
-        <Link to="/brahwhat" style={styleLink}>
-          Home
+        <Link to="/" style={styleLink}>
+          ProjectPi
         </Link>
       </ToolbarGroup>
       <IconMenu
