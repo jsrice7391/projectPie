@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import { MuiThemeProvider } from "material-ui/styles";
+import API from "../../utils"
 
 
 class Project extends Component {
@@ -14,7 +15,19 @@ class Project extends Component {
         team: [],
         note: ""
     }
-    
+
+    componentWillMount(){
+        this.getProject()
+    }
+
+    getProject(){
+        API.getProject().then(res =>{
+            this.setState({...props}}
+        })
+    }
+
+
+
   render() {
     return(
     <MuiThemeProvider>

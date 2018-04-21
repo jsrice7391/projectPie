@@ -6,7 +6,7 @@ export default {
     return axios.get("/api/items");
   },
   // Gets the Item with the given id
-  getItem: function(id) {
+  getProject: function(id) {
     return axios.get("/api/items/" + id);
   },
   // Deletes the Item with the given id
