@@ -5,27 +5,25 @@ import NoMatch from "./pages/NoMatch";
 import DocumentTitle from "react-document-title";
 import Nav from "./components/Nav"
 import Project from "./pages/Project"
+import {NewProject} from "./features/NewProject";
 import { MuiThemeProvider } from "material-ui/styles";
-import FloatingActionButton from "material-ui/FloatingActionButton";
-import ContentAdd from "material-ui/svg-icons/content/add";
+
 
 const App = () => (
   <div>
     <DocumentTitle title="My React Homepage" />
-    <Router>
-      <div>
-        <Nav />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/project" component={Project} />
-          <Route component={NoMatch} />
-        </Switch>
-      </div>
-    </Router>
     <MuiThemeProvider>
-      <FloatingActionButton className="fab">
-        <ContentAdd />
-      </FloatingActionButton>
+      <Router>
+        <div>
+          <Nav />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/project" component={Project} />
+            <Route component={NoMatch} />
+          </Switch>
+        </div>
+      </Router>
+      <NewProject/>
     </MuiThemeProvider>
   </div>
 );
