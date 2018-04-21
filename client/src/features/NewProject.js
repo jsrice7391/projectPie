@@ -20,7 +20,7 @@ const style = {
 };
 
 export class NewProject extends Component {
-         state = { open: false, client: "", people: ["Justin", "Rice", "Sam", "Walsky"], pm: "", acd: "", ae: "", sd: "", ed: "" };
+         state = { open: false, client: "", people: ["Justin", "Rice", "Sam", "Walsky"], pm: "", acd: "", ae: "", sd: "", ed: "", team:[] };
 
          handleOpen = () => {
            this.setState({ open: true });
@@ -33,12 +33,13 @@ export class NewProject extends Component {
            this.setState({ acd: value });
          };
          handleAEChange = (event, index, value) => {
-                this.setState({people: this.state.people.filter(function(person) { 
-        return person !== value
-    }), ae: value})
-    
+           this.setState({
+             people: this.state.people.filter(function(person) {
+               return person !== value;
+             }),
+             ae: value
+           });
          };
-
 
          handleTextChange = e => {
            this.setState({ client: e.target.value });
@@ -57,10 +58,24 @@ export class NewProject extends Component {
          };
 
          handleSubmit(e) {
-             e.preventDefault();
+           e.preventDefault();
          }
+         menuItems(values) {
+           return this.state.people.map(name => (
+             <MenuItem
+               key={name}
+               insetChildren={true}
+               checked={values && values.indexOf(name) > -1}
+               value={name}
+               primaryText={name}
+             />
+           ));
+         }
+
          render() {
            const actions = [<FlatButton label="Ok" primary={true} keyboardFocused={true} onClick={this.handleClose} />, <FlatButton label="Submit" primary={true} keyboardFocused={true} onClick={this.handleSubmit} />];
+
+           const { people } = this.state;
 
            return <div>
                <FloatingActionButton style={style}>
@@ -70,7 +85,7 @@ export class NewProject extends Component {
                  <TextField floatingLabelText="Floating Label Text" value={this.state.client} onChange={this.handleTextChange} />
                  <br />
                  <SelectField value={this.state.pm} onChange={this.handleChange} maxHeight={200}>
-                   {this.state.people.map((person, i) => (
+                   {people.map((person, i) => (
                      <MenuItem
                        value={person}
                        key={i}
@@ -80,7 +95,7 @@ export class NewProject extends Component {
                  </SelectField>
                  <br />
                  <SelectField value={this.state.acd} onChange={this.handleACDChange} maxHeight={200}>
-                   {this.state.people.map((person, i) => (
+                   {people.map((person, i) => (
                      <MenuItem
                        value={person}
                        key={i}
@@ -90,13 +105,17 @@ export class NewProject extends Component {
                  </SelectField>
                  <br />
                  <SelectField value={this.state.ae} onChange={this.handleAEChange} maxHeight={200}>
-                   {this.state.people.map((person, i) => (
+                   {people.map((person, i) => (
                      <MenuItem
                        value={person}
                        key={i}
                        primaryText={`${person}`}
                      />
                    ))}
+                 </SelectField>
+                 <br/>
+                 <SelectField multiple={true} hintText="Team" value={people} onChange={this.handleTeamChange}>
+                   {this.menuItems(people)}
                  </SelectField>
                  <DatePicker hintText="Start Date" value={this.state.sd} onChange={this.handleChangeSD} />
 
