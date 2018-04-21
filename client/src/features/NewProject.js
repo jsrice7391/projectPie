@@ -26,9 +26,19 @@ export class NewProject extends Component {
            this.setState({ open: true });
          };
 
-         handleChange = (event, index, value) => this.setState({
-             value
-           });
+         handleChange = (event, index, value) => {
+           this.setState({ pm: value });
+         };
+         handleACDChange = (event, index, value) => {
+           this.setState({ acd: value });
+         };
+         handleAEChange = (event, index, value) => {
+                this.setState({people: this.state.people.filter(function(person) { 
+        return person !== value
+    }), ae: value})
+    
+         };
+
 
          handleTextChange = e => {
            this.setState({ client: e.target.value });
@@ -46,8 +56,8 @@ export class NewProject extends Component {
            this.setState({ open: false });
          };
 
-         handleSubmit(props) {
-           console.log(`${this.state.props}`);
+         handleSubmit(e) {
+             e.preventDefault();
          }
          render() {
            const actions = [<FlatButton label="Ok" primary={true} keyboardFocused={true} onClick={this.handleClose} />, <FlatButton label="Submit" primary={true} keyboardFocused={true} onClick={this.handleSubmit} />];
@@ -59,24 +69,35 @@ export class NewProject extends Component {
                <Dialog title="Add a new project" actions={actions} modal={false} open={this.state.open} onRequestClose={this.handleClose}>
                  <TextField floatingLabelText="Floating Label Text" value={this.state.client} onChange={this.handleTextChange} />
                  <br />
-                 <SelectField value={this.state.pm} onChange={this.handleChange} floatingLabelText="Project Manager">
-                   {this.state.people.map((person, i) => {
-                     return <MenuItem value={person} key={i} primaryText={`${person}`} />;
-                   })}
+                 <SelectField value={this.state.pm} onChange={this.handleChange} maxHeight={200}>
+                   {this.state.people.map((person, i) => (
+                     <MenuItem
+                       value={person}
+                       key={i}
+                       primaryText={`${person}`}
+                     />
+                   ))}
                  </SelectField>
                  <br />
-                 <SelectField value={this.state.acd} onChange={this.handleChange} floatingLabelText="Asssitant Creative Driector">
-                   {this.state.people.map((person, i) => {
-                     return <MenuItem value={person} key={i} primaryText={`${person}`} />;
-                   })}
+                 <SelectField value={this.state.acd} onChange={this.handleACDChange} maxHeight={200}>
+                   {this.state.people.map((person, i) => (
+                     <MenuItem
+                       value={person}
+                       key={i}
+                       primaryText={`${person}`}
+                     />
+                   ))}
                  </SelectField>
                  <br />
-                 <SelectField value={this.state.ae} onChange={this.handleSelectChange} floatingLabelText="Account Executive">
-                   {this.state.people.map((person, i) => {
-                     return <MenuItem value={person} key={i} primaryText={`${person}`} />;
-                   })}
+                 <SelectField value={this.state.ae} onChange={this.handleAEChange} maxHeight={200}>
+                   {this.state.people.map((person, i) => (
+                     <MenuItem
+                       value={person}
+                       key={i}
+                       primaryText={`${person}`}
+                     />
+                   ))}
                  </SelectField>
-                 <br />
                  <DatePicker hintText="Start Date" value={this.state.sd} onChange={this.handleChangeSD} />
 
                  <DatePicker hintText="End Date" value={this.state.ed} onChange={this.handleChangeED} />
