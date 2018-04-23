@@ -7,8 +7,7 @@ import RaisedButton from "material-ui/RaisedButton";
 import DatePicker from "material-ui/DatePicker";
 import TextField from "material-ui/TextField";
 import FloatingActionButton from "material-ui/FloatingActionButton";
-import SelectField from "material-ui/SelectField";
-import MenuItem from "material-ui/MenuItem";
+import DropDown from "../components/DropDown";
 import API from "../utils/API";
 
 
@@ -55,6 +54,10 @@ export class NewProject extends Component {
            this.setState({ ed: date });
          };
 
+         handlePMChange = (event, date) =>{
+           this.setState({pm: date})
+         }
+
          handleClose = () => {
            this.setState({ open: false });
          };
@@ -78,17 +81,6 @@ export class NewProject extends Component {
            }).catch(err => console.log(err))
 
          }
-         menuItems(values) {
-           return this.state.people.map(name => (
-             <MenuItem
-               key={name}
-               insetChildren={true}
-               checked={values && values.indexOf(name) > -1}
-               value={name}
-               primaryText={name}
-             />
-           ));
-         }
 
          render() {
            const actions = [<FlatButton label="Ok" primary={true} keyboardFocused={true} onClick={this.handleClose} />, <FlatButton label="Submit" primary={true} keyboardFocused={true} onClick={this.handleSubmit} />];
@@ -100,45 +92,12 @@ export class NewProject extends Component {
                  <ContentAdd onClick={this.handleOpen} />
                </FloatingActionButton>
                <Dialog title="Add a new project" actions={actions} modal={false} open={this.state.open} onRequestClose={this.handleClose}>
-                 <TextField floatingLabelText="Project Title" value={this.state.title} onChange={this.handleTextChange} />
-                 <TextField floatingLabelText="Client Name" value={this.state.client} onChange={this.handleTextChange} />
+                 <TextField floatingLabelText="Project Title" value={this.state.title} onChange={this.handleTextChange} style={{ marginRight: "5.5%" }} />
+                 <TextField floatingLabelText="Client Name" value={this.state.client} onChange={this.handleTextChange} style={{ marginRight: "5.5%" }} />
                  <br />
-                 <SelectField value={this.state.pm} onChange={this.handleChange} maxHeight={200}>
-                   {people.map((person, i) => (
-                     <MenuItem
-                       value={person}
-                       key={i}
-                       primaryText={`${person}`}
-                     />
-                   ))}
-                 </SelectField>
-                 <br />
-                 <SelectField value={this.state.acd} onChange={this.handleACDChange} maxHeight={200}>
-                   {people.map((person, i) => (
-                     <MenuItem
-                       value={person}
-                       key={i}
-                       primaryText={`${person}`}
-                     />
-                   ))}
-                 </SelectField>
-                 <br />
-                 <SelectField value={this.state.ae} onChange={this.handleAEChange} maxHeight={200}>
-                   {people.map((person, i) => (
-                     <MenuItem
-                       value={person}
-                       key={i}
-                       primaryText={`${person}`}
-                     />
-                   ))}
-                 </SelectField>
-                 <br />
-                 <SelectField multiple={true} hintText="Team" value={people} onChange={this.handleTeamChange}>
-                   {this.menuItems(people)}
-                 </SelectField>
-                 <DatePicker hintText="Start Date" value={this.state.sd} onChange={this.handleChangeSD} />
-
-                 <DatePicker hintText="End Date" value={this.state.ed} onChange={this.handleChangeED} />
+                 <DropDown people={this.state.people} value={this.state.pm} onChange={this.handlePMChange}/>
+                 <DatePicker hintText="Start Date" value={this.state.sd} onChange={this.handleChangeSD} style={{ marginRight: "5.5%" }} />
+                 <DatePicker hintText="End Date" value={this.state.ed} onChange={this.handleChangeED} style={{float:"left"}} />
                </Dialog>
              </div>;
          }

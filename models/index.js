@@ -1,4 +1,5 @@
 module.exports = {
-  Item: require("./Item"),
-  Project: require("./Project")
+  User: require("./User"),
+  Project: require("./Project"),
+  Client: require("./Client")
 };
