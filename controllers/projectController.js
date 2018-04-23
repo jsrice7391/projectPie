@@ -5,7 +5,12 @@ module.exports = {
 
   },
   findOne: function(req, res) {
-    db.Project.findOne({title:req.params.title}).then(articles => res.json(articles)).catch(err => res.status(422).json(err))
+    db.Project.find({ title: req.params.projectTitle })
+      .then(articles => {
+        console.log(articles);
+        res.json(articles);
+      })
+      .catch(err => res.status(422).json(err));
   },
   createOne: function(req, res) {
     db.Project.create(req.body).then(res => res.json(res)).catch(err => res.status(422).json(err))

@@ -6,7 +6,7 @@ router.route("/")
   .post(projectController.createOne);
 
 // Matches with "/api/items/:id"
-router.route("/:projectTitle")
+router.route("/list/:projectTitle")
   .get(projectController.findOne)
 
 module.exports = router;
