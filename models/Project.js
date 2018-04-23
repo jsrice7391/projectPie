@@ -3,9 +3,15 @@ const Schema = mongoose.Schema;
 
 const projectSchema = new Schema(
   {
-    name: { type: String, required: true },
+    title: { type: String, required: true },
+    client: {type: String, required: true},
     startDate: { type: Date, required: true },
     endDate: { type: Date, required: true },
+    pm: {type: String, required: true},
+    acd: {type: String, required: true},
+    ae: {type: String, required: true},
+    sd: {type: String, required: true},
+    ed: {type: String, required: true},
     links: [],
     workers: []
   },
@@ -15,7 +21,4 @@ const projectSchema = new Schema(
 const Project = mongoose.model("Project", projectSchema);
 
 module.exports = Project;
-
-
-
 

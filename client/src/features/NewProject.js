@@ -9,6 +9,8 @@ import TextField from "material-ui/TextField";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import SelectField from "material-ui/SelectField";
 import MenuItem from "material-ui/MenuItem";
+import API from "../utils/API";
+
 
 const style = {
   margin: 0,
@@ -20,7 +22,7 @@ const style = {
 };
 
 export class NewProject extends Component {
-         state = { open: false, client: "", people: ["Justin", "Rice", "Sam", "Walsky"], pm: "", acd: "", ae: "", sd: "", ed: "", team:[] };
+         state = { open: false, client: "", title: "", people: ["Justin", "Rice", "Sam", "Walsky"], pm: "", acd: "", ae: "", sd: "", ed: "", team:[] };
 
          handleOpen = () => {
            this.setState({ open: true });
@@ -58,7 +60,23 @@ export class NewProject extends Component {
          };
 
          handleSubmit(e) {
+           const project = this.state;
            e.preventDefault();
+           API.createProject({project}).then(result => {
+             this.setState({
+               open: false,
+               client: "",
+               title: "",
+               people: ["Justin", "Rice", "Sam", "Walsky"],
+               pm: "",
+               acd: "",
+               ae: "",
+               sd: "",
+               ed: "",
+               team: []
+             })
+           }).catch(err => console.log(err))
+
          }
          menuItems(values) {
            return this.state.people.map(name => (
@@ -82,7 +100,8 @@ export class NewProject extends Component {
                  <ContentAdd onClick={this.handleOpen} />
                </FloatingActionButton>
                <Dialog title="Add a new project" actions={actions} modal={false} open={this.state.open} onRequestClose={this.handleClose}>
-                 <TextField floatingLabelText="Floating Label Text" value={this.state.client} onChange={this.handleTextChange} />
+                 <TextField floatingLabelText="Project Title" value={this.state.title} onChange={this.handleTextChange} />
+                 <TextField floatingLabelText="Client Name" value={this.state.client} onChange={this.handleTextChange} />
                  <br />
                  <SelectField value={this.state.pm} onChange={this.handleChange} maxHeight={200}>
                    {people.map((person, i) => (
@@ -113,7 +132,7 @@ export class NewProject extends Component {
                      />
                    ))}
                  </SelectField>
-                 <br/>
+                 <br />
                  <SelectField multiple={true} hintText="Team" value={people} onChange={this.handleTeamChange}>
                    {this.menuItems(people)}
                  </SelectField>
