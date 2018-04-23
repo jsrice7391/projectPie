@@ -18,9 +18,14 @@ class Project extends Component {
     }
 
     getProject() {
-      API.getProject(this.props.match.params.title)
+      API.getProject(this.props.match.params.projectTitle)
         .then(res => {
-          this.setState({ project: res.data[0] });
+          console.log(res.data[0])
+          this.setState({
+            startDate: res.data[0].startDate,
+            name: res.data[0].name,
+            client: res.data[0].client
+           });
         })
         .catch(err => console.log(err));
     }
@@ -32,9 +37,11 @@ class Project extends Component {
     }
 
   render() {
+    const {client} = this.state
     return(
     <MuiThemeProvider>
       <h1>Project Page!</h1>
+      <h2>{this.state.client}</h2>
     </MuiThemeProvider>
     )
   }
