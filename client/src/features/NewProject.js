@@ -9,7 +9,8 @@ import TextField from "material-ui/TextField";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import DropDown from "../components/DropDown";
 import API from "../utils/API";
-
+import DropDownMenu from "material-ui/DropDownMenu";
+import MenuItem from "material-ui/MenuItem";
 
 const style = {
   margin: 0,
@@ -21,18 +22,16 @@ const style = {
 };
 
 export class NewProject extends Component {
-         state = { open: false, client: "", title: "", people: ["Justin", "Rice", "Sam", "Walsky"], pm: "", acd: "", ae: "", sd: "", ed: "", team:[] };
+         state = { open: false, client: "", title: "", people: ["Justin", "Rice", "Sam", "Walsky"], pm: "", acd: "", ae: "", sd: "", ed: "", team: [] };
 
          handleOpen = () => {
            this.setState({ open: true });
          };
 
-         handleChange = (event, index, value) => {
-           this.setState({ pm: value });
-         };
          handleACDChange = (event, index, value) => {
            this.setState({ acd: value });
          };
+
          handleAEChange = (event, index, value) => {
            this.setState({
              people: this.state.people.filter(function(person) {
@@ -54,9 +53,9 @@ export class NewProject extends Component {
            this.setState({ ed: date });
          };
 
-         handlePMChange = (event, date) =>{
-           this.setState({pm: date})
-         }
+         handlePMChange = (event, data) => {
+           this.setState({ pm: data });
+         };
 
          handleClose = () => {
            this.setState({ open: false });
@@ -65,21 +64,26 @@ export class NewProject extends Component {
          handleSubmit(e) {
            const project = this.state;
            e.preventDefault();
-           API.createProject({project}).then(result => {
-             this.setState({
-               open: false,
-               client: "",
-               title: "",
-               people: ["Justin", "Rice", "Sam", "Walsky"],
-               pm: "",
-               acd: "",
-               ae: "",
-               sd: "",
-               ed: "",
-               team: []
+           API.createProject({ project })
+             .then(result => {
+               this.setState({
+                 open: false,
+                 client: "",
+                 title: "",
+                 people: ["Justin", "Rice", "Sam", "Walsky"],
+                 pm: "",
+                 acd: "",
+                 ae: "",
+                 sd: "",
+                 ed: "",
+                 team: []
+               });
              })
-           }).catch(err => console.log(err))
+             .catch(err => console.log(err));
+         }
 
+         handleInputChange(event) {
+           this.setState({ [event.target.name]: event.target.value });
          }
 
          render() {
@@ -92,12 +96,36 @@ export class NewProject extends Component {
                  <ContentAdd onClick={this.handleOpen} />
                </FloatingActionButton>
                <Dialog title="Add a new project" actions={actions} modal={false} open={this.state.open} onRequestClose={this.handleClose}>
-                 <TextField floatingLabelText="Project Title" value={this.state.title} onChange={this.handleTextChange} style={{ marginRight: "5.5%" }} />
-                 <TextField floatingLabelText="Client Name" value={this.state.client} onChange={this.handleTextChange} style={{ marginRight: "5.5%" }} />
+                 <TextField floatingLabelText="Project Title" name="client" value={this.state.title} onChange={this.handleInputChange} style={{ marginRight: "5.5%" }} />
+                 <input name="client" type="text" value={this.state.client} onChange={this.handleInputChange} />
                  <br />
-                 <DropDown people={this.state.people} value={this.state.pm} onChange={this.handlePMChange}/>
+                 <DropDownMenu value={this.state.pm} name="pm" onChange={this.handlePMChange}>
+                   {this.state.people.map((person, i) => (
+                     <MenuItem value={i} primaryText={person} />
+                   ))}
+                 </DropDownMenu>
+                 <DropDownMenu value={this.state.acd} onChange={this.handleACDChange}>
+                   {this.state.people.map((person, i) => (
+                     <MenuItem value={i} primaryText={person} />
+                   ))}
+                 </DropDownMenu>
+                 <DropDownMenu value={this.state.ae} onChange={this.handleAEChange}>
+                   {this.state.people.map((person, i) => (
+                     <MenuItem value={i} primaryText={person} />
+                   ))}
+                 </DropDownMenu>
+                 <DropDownMenu value={this.state.sd} onChange={this.handleChangeSD}>
+                   {this.state.people.map((person, i) => (
+                     <MenuItem value={i} primaryText={person} />
+                   ))}
+                 </DropDownMenu>
+                 <DropDownMenu value={this.state.ed} onChange={this.handleChangeED}>
+                   {this.state.people.map((person, i) => (
+                     <MenuItem value={i} primaryText={person} />
+                   ))}
+                 </DropDownMenu>
                  <DatePicker hintText="Start Date" value={this.state.sd} onChange={this.handleChangeSD} style={{ marginRight: "5.5%" }} />
-                 <DatePicker hintText="End Date" value={this.state.ed} onChange={this.handleChangeED} style={{float:"left"}} />
+                 <DatePicker hintText="End Date" value={this.state.ed} onChange={this.handleChangeED} style={{ float: "left" }} />
                </Dialog>
              </div>;
          }

@@ -4,24 +4,23 @@ import MenuItem from "material-ui/MenuItem";
 
 
 
-class DropDown extends Component {
-
-
-
-
-
-
-
-    render(){
-         const { people } = this.props;
-
-        return <SelectField maxHeight={200} style={{ marginRight: "5.5%" }}>
-        {people.map((person, i) =>(
-            <MenuItem key={i} value={person} primaryText={person}/>
+const DropDown = (props) => (
+     <SelectField
+        maxHeight={200}
+        style={{ marginRight: "5.5%" }}
+        onChange={props.handleChange}
+        value ={props.value}
+      >
+        {props.people.map((person, i) => (
+          <MenuItem key={i} value={person} primaryText={person} />
         ))}
-          </SelectField>;
-    }
-}
+      </SelectField>
+
+    
+)
+
+
+
  
 
 export default DropDown;
